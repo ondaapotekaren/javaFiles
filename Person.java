@@ -72,7 +72,7 @@ public class Person {
 			&& p.getAge() >= 18
 			&& p.getAge() <= 30
 		);*/
-	
+	/*
 		processElements(
 			listOffP,
 			p -> p.getGender() == Person.Sex.FEMALE
@@ -89,9 +89,18 @@ public class Person {
 					&& p.getAge() <= 25)
 			.map(p->p.getName())
 			.forEach(name -> System.out.println(name));
-				
 
+	*/
+		List<Integer> intList = new LinkedList<Integer>();
+	
+		for (int i = 1;i<1001;i++){
+			intList.add(i); 
+		}
 
-
+		intList
+			.parallelStream()
+			.filter(x -> x * x > 100 && x * x < 20000)
+			.map(x -> x + 10000)
+			.forEach(x -> System.out.println(x));
 	}
 }
