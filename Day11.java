@@ -17,25 +17,25 @@ public class Day11 {
 			e.printStackTrace();
 		}
 		for(String s : splitString){
-			if (s.equals("n")) { // n
+			if (s.equals("n")) {
 				y--;
 				
 			}
-			else if (s.equals("nw")) { // nw
+			else if (s.equals("nw")) {
 				y--;
 				x--;
 			}
-			else if (s.equals("sw")) { // sw
+			else if (s.equals("sw")) {
 				x--;
 			}
-			else if (s.equals("ne")) { //ne
+			else if (s.equals("ne")) {
 				x++;
 			}
-			else if (s.equals("se")) { //se
+			else if (s.equals("se")) {
 				y++;
 				x++;
 			}
-			else if (s.equals("s")) { //s
+			else if (s.equals("s")) {
 				y++;
 				
 			}
