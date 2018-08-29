@@ -4,25 +4,25 @@ import java.io.*;
 public class Day12 {
 
 	public static List<Integer> createGroup(Integer input) {
-		List<Integer> group0 = new ArrayList<Integer>();
+		List<Integer> group = new ArrayList<Integer>();
 		int index = 0;
-		group0.add(input);
-		while(index < group0.size()){
-			for(Integer i : graph.get(group0.get(index))) {
+		group.add(input);
+		while(index < group.size()){
+			for(Integer i : graph.get(group.get(index))) {
 				boolean inGroup = false;
-				for(Integer j : group0) {
+				for(Integer j : group) {
 					if ((int)i == (int)j){
 						inGroup = true;
 						break;
 					}
 				} 		
 				if(!inGroup) {
-					group0.add(i);
+					group.add(i);
 				}			 		
 			}
 			index++;
 		}
-		return group0;
+		return group;
 	}
 	
 	static List<List<Integer>> graph = new LinkedList<List<Integer>>();
@@ -44,7 +44,7 @@ public class Day12 {
 		} catch (Exception e ) {
 			e.printStackTrace();
 		}
-		
+	
 		List<List<Integer>> groupList = new LinkedList<List<Integer>>();
 		for(int i = 0;i<graph.size();i++) {
 			boolean inGroup = false;
