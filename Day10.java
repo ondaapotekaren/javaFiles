@@ -3,9 +3,14 @@ import java.io.*;
 
 public class Day10 {
 
-	public static void main(String[] args) {
-		System.out.println("Day 10");
-		String lens1 = "63,144,180,149,1,255,167,84,125,65,188,0,2,254,229,24";
+	/*public static void main(String[] args) {
+		String inp = "63,144,180,149,1,255,167,84,125,65,188,0,2,254,229,24";
+		System.out.println(outPutKnot(inp));
+	}*/
+
+	public static String outputKnot(String lens1) {
+		//System.out.println("Day 10");
+		//String lens1 = "63,144,180,149,1,255,167,84,125,65,188,0,2,254,229,24";
 		int[] lens = new int[lens1.length()+5];
 		
 		// convert to ASCII
@@ -63,6 +68,7 @@ public class Day10 {
 			}
 			hex = hex + conv;
 		}
-		System.out.println("Part B: "+hex);
+		return hex;
+		//System.out.println("Part B: "+hex);
 	}
 }
