@@ -24,7 +24,7 @@ public class Day12 {
 		}
 		return group;
 	}
-	
+
 	static List<List<Integer>> graph = new LinkedList<List<Integer>>();
 
 	public static void main(String[] args){
@@ -44,8 +44,9 @@ public class Day12 {
 		} catch (Exception e ) {
 			e.printStackTrace();
 		}
-	
+
 		List<List<Integer>> groupList = new LinkedList<List<Integer>>();
+
 		for(int i = 0;i<graph.size();i++) {
 			boolean inGroup = false;
 			for(List<Integer> l : groupList)
