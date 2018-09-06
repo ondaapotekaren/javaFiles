@@ -2,17 +2,14 @@ import java.util.*;
 import java.io.*;
 
 class Program {
-	String id;
 	int i = 0;
 	HashMap<String,Long> regs;
 	ArrayList<Long> queue;
  	boolean wait;
 	int sent = 0;
 
-	Program (String id,Long p) {
-		this.id = id;
+	Program () {
 		this.regs = new HashMap<String,Long>();
-		regs.put("p",p);
 		this.queue = new ArrayList<Long>();
 		wait = false;
 	}
@@ -33,13 +30,11 @@ class Program {
 
 	Inst fetch(ArrayList<String> insts) {
 		
-		// frst register can also be number.
 
 		String[] sl = insts.get(i).split(" ");
 		String name = sl[0];
 		String reg = sl[1];
 		Long x = null;
-		//Long x = regs.get(reg);
 		Long y = null;
 
 		if (Character.isDigit(sl[1].charAt(sl[1].length()-1))) {
@@ -114,21 +109,16 @@ public class Day18b {
 
 	public static void main(String[] args) {
 		ArrayList<String> insts = new ArrayList<String>();
-		Program p0 = new Program("p0",new Long(0));
-		Program p1 = new Program("p1",new Long(1));
+		Program p0 = new Program();
+		p0.regs.put("p",new Long(0));
+		Program p1 = new Program();
+		p1.regs.put("p",new Long(1));	
 	
-		long a = 34;
-		long b = -34;
-	
-		try(BufferedReader br = new BufferedReader(new FileReader("./"+args[0]))) {
-			String line;
-			while((line = br.readLine()) != null) {
-				insts.add(line);	
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		ReadInputFile readInputFile = new ReadInputFile("./"+args[0]);
+		for(String s : readInputFile.getStringList()){
+			insts.add(s);
 		}
-		
+
 		boolean term0 = false;
 		boolean term1 = false;
 		
@@ -149,7 +139,6 @@ public class Day18b {
 			if(p0.wait && p1.wait) {
 				break;
 			}
-			//System.out.println(p1.sent);
 		}
 		
 		System.out.println(p1.sent);
