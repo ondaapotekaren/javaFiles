@@ -123,7 +123,6 @@ public class Day18b {
 		boolean term1 = false;
 		
 		while (! (term0 && term1)) {
-
 			if(p0.i > -1 && p0.i < insts.size()) {
 				p0.exec(p0.fetch(insts),p1);
 			} else {
@@ -140,7 +139,6 @@ public class Day18b {
 				break;
 			}
 		}
-		
 		System.out.println(p1.sent);
 	}
 }
