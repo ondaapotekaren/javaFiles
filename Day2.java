@@ -22,7 +22,7 @@ public class Day2 {
 						.map(i -> max.get(i) - min.get(i))
 						.sum()
 		);
-
+		/*
 		int sum = 0;
 		for (List<Integer> li : rowList) {
 			for (int i = 0;i<li.size();i++) {
@@ -33,9 +33,17 @@ public class Day2 {
 				}
 			}
 		}
-		
-		System.out.println("Part B "+ sum);
-	//	System.out.println("k: "+sum1);
+		*/
+		System.out.println("Part B: "+ rowList.stream()
+			.map(list -> IntStream.range(0,list.size()) 
+					.map(i -> IntStream.range(0,list.size())
+							.filter(ii -> list.get(i) % list.get(ii) == 0 && i!=ii)
+							.map(ii -> list.get(i) / list.get(ii))
+							.sum())
+					.sum())
+			.mapToInt(p -> (int)p)
+			.sum()
+		);
 	}
 
 
