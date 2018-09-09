@@ -10,11 +10,11 @@ public class Day2 {
 		ArrayList<String> sl = readInputFile.getStringList();
 		ArrayList<List<Integer>> rowList = parseStringListToListOfList(sl);
 		
-		List<Integer> min = rowList.stream()
+		List<Integer> min = rowList.parallelStream()
 				.map(al -> al.stream().min(Integer::compare).get())
 				.collect(ArrayList::new, ArrayList::add,ArrayList::addAll);
 		
-		List<Integer> max = rowList.stream()
+		List<Integer> max = rowList.parallelStream()
 				.map(al-> al.stream().max(Integer::compare).get())
 				.collect(ArrayList::new, ArrayList::add,ArrayList::addAll);
 		
@@ -34,7 +34,7 @@ public class Day2 {
 			}
 		}
 		*/
-		System.out.println("Part B: "+ rowList.stream()
+		System.out.println("Part B: "+ rowList.parallelStream()
 			.map(list -> IntStream.range(0,list.size()) 
 					.map(i -> IntStream.range(0,list.size())
 							.filter(ii -> list.get(i) % list.get(ii) == 0 && i!=ii)
