@@ -17,7 +17,9 @@ public class Day2 {
 		List<Integer> max = rowList.parallelStream()
 				.map(al-> al.stream().max(Integer::compare).get())
 				.collect(ArrayList::new, ArrayList::add,ArrayList::addAll);
-		
+	
+		// flatMap
+	
 		System.out.println("Part A: " + IntStream.range(0,max.size())
 						.map(i -> max.get(i) - min.get(i))
 						.sum()
@@ -48,6 +50,8 @@ public class Day2 {
 			.mapToInt(p -> (int)p)
 			.sum()
 		);
+
+		//Stream<Integer> sss = rowList.stream().flatMap(elem -> elem.stream());
 	}
 
 
