@@ -23,6 +23,9 @@ public class Day2 {
 						.sum()
 		);
 		/*
+
+		Iterative solution
+
 		int sum = 0;
 		for (List<Integer> li : rowList) {
 			for (int i = 0;i<li.size();i++) {
@@ -34,6 +37,7 @@ public class Day2 {
 			}
 		}
 		*/
+
 		System.out.println("Part B: "+ rowList.parallelStream()
 			.map(list -> IntStream.range(0,list.size()) 
 					.map(i -> IntStream.range(0,list.size())
