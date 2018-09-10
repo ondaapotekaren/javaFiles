@@ -6,23 +6,17 @@ public class Day19 {
 		ReadInputFile rif = new ReadInputFile("./"+args[0]);
 		ArrayList<String> diagram = rif.getStringList();
 		Direction currentDir = Direction.SOUTH;
-		int j=0;
-		while(diagram.get(0).charAt(j) != '|') {
-			j++;
+		int x=0;
+		while(diagram.get(0).charAt(x) != '|') {
+			x++;
 		}
-		
 		int y = 1;
-		int x = j;
 		Packet packet = new Packet(x,y,currentDir);
-		String currentString = "";
-		boolean end = false;
 		String collected = "";
 		ArrayList<Direction> surrDirs;
 		int steps = 1;	
 		do {
-			x = packet.x;
-			y = packet.y;
-			currentString = diagram.get(y).substring(x,x+1);
+			String currentString = diagram.get(packet.y).substring(packet.x,packet.x+1);
 			surrDirs = Packet.checkSurrounding(packet.x,packet.y,diagram);
 			
 			if (currentString.equals("+")) {
@@ -40,6 +34,7 @@ public class Day19 {
 				}
 				packet.move(currentDir);
 			}
+
 		steps++;
 
 		} while (surrDirs.size() != 1);
