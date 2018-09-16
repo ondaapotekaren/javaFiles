@@ -67,19 +67,6 @@ public class Day20 {
 			: tickAndRemove(sortedNonColliders);
 	}
 
-
-	
-	public static void removeById(ArrayList<Particle> pl, Set<Integer> set) {
-		for(Integer id : set) {
-			int i = 0;
-			for (Particle p : pl) {
-				if(p.id == id) {
-					break;
-				}
-				i++;
-			}
-			pl.remove(i);
-		}
 	}
 
 	public static ArrayList<Particle> getMinParList(ArrayList<Particle> parList,Function<Particle,Integer> calc) {
