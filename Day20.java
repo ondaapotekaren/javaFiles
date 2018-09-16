@@ -67,8 +67,6 @@ public class Day20 {
 			: tickAndRemove(sortedNonColliders);
 	}
 
-	}
-
 	public static ArrayList<Particle> getMinParList(ArrayList<Particle> parList,Function<Particle,Integer> calc) {
 		Integer min = parList.stream()
 			.map(p -> calc.apply(p))
