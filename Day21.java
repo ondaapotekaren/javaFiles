@@ -7,81 +7,92 @@ public class Day21 {
 	public static void main(String[] args){
 		ReadInputFile rif = new ReadInputFile("./"+args[0]);
 		ArrayList<String> als = rif.getStringList();
-		ArrayList<String> input = new ArrayList<String>();
-		ArrayList<TransformationRule> transformations = new ArrayList<TransformationRule>();
+		Square input = new Square();
+		ArrayList<Pair<Square>> rules = new ArrayList<Pair<Square>>();
 		
 		for (String s : als ) {
 			String[] ss = s.split(" => ");
-			TransformationRule tfr = new TransformationRule(ss[0],ss[1]);
-			transformations.add(tfr);		
-		}
-
-		input.add(".#.");
-		input.add("..#");
-		input.add("###");
-
-		// loop trough rules to find match
-		// if no match is found flip the pattern
-		// repeat until match is found
-		
-		// only need rightFlip
-			
-		// break into 2x2 or 3x3.
-			
-		ArrayList<String> out = rotateFaceward(input);
-		System.out.println("-z-rotate-");
-		for (String s : out ) {
-			System.out.println(s);
-		}
-		System.out.println("tip by right");
-		out = rTip(rTip(input));
-		for (String s : out) {
-			System.out.println(s);
-		}
-		System.out.println("-rightTip-");
-		out = rTip(input);
-		for (String s : out) {
-			System.out.println(s);
-		}
-		System.out.println("-leftTip-by-right");
-		out = rTip(rTip(rTip(input)));
-		for (String s : out) {
-			System.out.println(s);
+			Square left = Square.parseRule(ss[0]);
+			Square right = Square.parseRule(ss[1]);
+			Pair<Square> p = new Pair<Square>(left,right);
+			rules.add(p);
 		}
 		
-		Square s = new Square();
-		/*		
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		s.pixels.add("123456789");
-		*/
+		input.addRow(".#.");
+		input.addRow("..#");
+		input.addRow("###");
 		
-		s.pixels.add("#..#");
-		s.pixels.add("....");
-		s.pixels.add("....");
-		s.pixels.add("#..#");
-		
-		breakIntoParts(s);
-		
-
-
+		final int iterations = 18;
+		int[] answ = new int[iterations];
+		for (int i = 0;i<iterations;i++) {
+			ArrayList<Square> enhancedSquares = breakIntoParts(input).parallelStream()
+				.map(square -> findMatchingRule(square,rules))		
+				.collect(ArrayList::new
+					,ArrayList::add
+					,ArrayList::addAll);
+			input = buildSquare(enhancedSquares);
+			answ[i] = countOnPixels(input);
+		}
+	
+		System.out.println("Part A "+answ[4]);
+		System.out.println("Part B "+answ[17]);
 	}
 
-	public static ArrayList<String> rotateFaceward(ArrayList<String> input) {
+	public static ArrayList<Square> createVariations(Square square) {
+		ArrayList<Square> variations = new ArrayList<Square>();
+		for (int rotate = 0;rotate < 2;rotate++) {
+			for (int tip = 0;tip<4;tip++) {
+				variations.add(square);	
+				square = rightTip(square);
+			}
+			square = rotateFaceward(square);
+		}			
+		return variations;
+	}
+
+	/*
+		Super parallelized
+	*/
+
+	public static Square findMatchingRule(Square square, ArrayList<Pair<Square>> rules) {
+		return createVariations(square).parallelStream()
+			.map(sq -> rules.parallelStream()
+					.filter(rule -> sq.equals(rule.left))
+					.map(rule -> rule.right)
+					.collect(ArrayList<Square>::new
+						,ArrayList<Square>::add
+						,ArrayList<Square>::addAll))
+			.flatMap(x -> x.stream())
+			.collect(Collectors.toList()).get(0);
+	}
+
+	public static int countOnPixels (Square square) {
+		ArrayList<String> pixels = square.pixels;
+		int acc = 0;
+		for(String s : pixels) {
+			for (int i=0;i<s.length();i++) {
+				if (s.charAt(i) == '#') {
+					acc++;
+				}
+			}
+		}
+		return acc; 
+	}
+
+
+	public static Square rotateFaceward(Square square) {
+		ArrayList<String> input = square.pixels;
 		ArrayList<String> output = new ArrayList<String>();
 		for (String s : input) {
 			output.add(new StringBuilder(s).reverse().toString());
-		} 
-		return output;
+		}
+		Square sq2 = new Square();
+		sq2.pixels = output;  
+		return sq2;
 	}
-	public static ArrayList<String> rTip(ArrayList<String> input) {
 
+	public static Square rightTip(Square square) {
+		ArrayList<String> input = square.pixels;
 		ArrayList<String> output = new ArrayList<String>();
 		for (int i = 0;i<input.size();i++) {
 			String res = "";
@@ -90,21 +101,32 @@ public class Day21 {
 			}
 			output.add(res);
 		}
-		return output;
+		Square sq2 = new Square(); 
+		sq2.pixels = output;
+		return sq2;
 	}
 	
 	public static Square buildSquare(ArrayList<Square> squares) {
 		Square square = new Square();
-		// must check size
-		for(Square miniSquare : squares) {
-			
-	
+		int miniSize = squares.get(0).pixels.size();
+		int rowSize = (int) Math.sqrt(squares.size());
+
+		for (int i = 0; i < rowSize*miniSize ; i++ ) {
+			square.pixels.add("");
 		}
-		return null;
+		for (int y = 0; y < rowSize ; y++ ) {
+			for (int x = 0; x < rowSize ; x++) {
+				for (int j = 0; j<miniSize;j++) {
+					String row = squares.get(y*rowSize+x).pixels.get(j);
+					String res = square.pixels.get(y*miniSize+j);
+					square.pixels.set(y*miniSize+j,res + row); 
+				}
+			}
+		}
+		return square;
 	}
 
-	public static ArrayList<Square> breakIntoParts(Square square) {
-		
+	public static ArrayList<Square> breakIntoParts(Square square) { 
 		ArrayList<Square> squares = new ArrayList<Square>();
 		ArrayList<String> pixels = square.pixels;
 		int size;
@@ -114,7 +136,7 @@ public class Day21 {
 		} else {
 			size = 3;
 		}
-		
+
 		for (int y = 0;y<pixels.size();y=y+size) {
 			for(int x = 0;x<pixels.get(0).length();x=x+size) {
 				Square s2 = new Square();
@@ -125,57 +147,9 @@ public class Day21 {
 					}
 					s2.pixels.add(row);
 				}
-				s2.printSquare();
 				squares.add(s2);
 			}
 		}
 		return squares;
 	}
 }
-
-class Square {
-	ArrayList<String> pixels;
-	
-	Square() {
-		this.pixels = new ArrayList<String>();
-	}
-
-	@Override public boolean equals(Object aThat) {
-		Square square = (Square) aThat;
-		ArrayList<String> one = new ArrayList<String>(square.pixels);
-		ArrayList<String> two = new ArrayList<String>(pixels);
-		Collections.sort(one);
-		Collections.sort(two);
-		return one.equals(two);
-	}
-	@Override public int hashCode() {
-		int hash = 1;
-		for (String s : pixels) {
-			hash = hash + s.hashCode();
-		}
-		return hash;
-	}
-	void printSquare() {
-
-		System.out.println("--Square--");
-		for(String s : pixels) {
-			System.out.println(s);
-		}
-	}
-
-}
-
-
-class TransformationRule {
-	String left;
-	String right;
-
-	TransformationRule(String left,String right) {
-		this.left = left;
-		this.right = right;
-	}
-		
-}
-
-
-
