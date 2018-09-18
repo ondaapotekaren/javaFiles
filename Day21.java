@@ -25,11 +25,9 @@ public class Day21 {
 		final int iterations = 18;
 		int[] answ = new int[iterations];
 		for (int i = 0;i<iterations;i++) {
-			ArrayList<Square> enhancedSquares = breakIntoParts(input).parallelStream()
+			List<Square> enhancedSquares = breakIntoParts(input).parallelStream()
 				.map(square -> findMatchingRule(square,rules))		
-				.collect(ArrayList::new
-					,ArrayList::add
-					,ArrayList::addAll);
+				.collect(Collectors.toList());
 			input = buildSquare(enhancedSquares);
 			answ[i] = countOnPixels(input);
 		}
@@ -54,14 +52,12 @@ public class Day21 {
 		Super parallelized
 	*/
 
-	public static Square findMatchingRule(Square square, ArrayList<Pair<Square>> rules) {
+	public static Square findMatchingRule(Square square, List<Pair<Square>> rules) {
 		return createVariations(square).parallelStream()
 			.map(sq -> rules.parallelStream()
 					.filter(rule -> sq.equals(rule.left))
 					.map(rule -> rule.right)
-					.collect(ArrayList<Square>::new
-						,ArrayList<Square>::add
-						,ArrayList<Square>::addAll))
+					.collect(Collectors.toList()))
 			.flatMap(x -> x.stream())
 			.collect(Collectors.toList()).get(0);
 	}
@@ -106,7 +102,7 @@ public class Day21 {
 		return sq2;
 	}
 	
-	public static Square buildSquare(ArrayList<Square> squares) {
+	public static Square buildSquare(List<Square> squares) {
 		Square square = new Square();
 		int miniSize = squares.get(0).pixels.size();
 		int rowSize = (int) Math.sqrt(squares.size());
@@ -126,7 +122,7 @@ public class Day21 {
 		return square;
 	}
 
-	public static ArrayList<Square> breakIntoParts(Square square) { 
+	public static List<Square> breakIntoParts(Square square) { 
 		ArrayList<Square> squares = new ArrayList<Square>();
 		ArrayList<String> pixels = square.pixels;
 		int size;
