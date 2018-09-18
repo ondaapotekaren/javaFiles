@@ -2,6 +2,12 @@ import java.util.*;
 import java.util.stream.*;
 import java.util.function.*;
 
+/*
+Parallel solution using parallelStream.
+Maybe cool theory. Definitly stupid in practice.
+*/
+
+
 public class Day21 {
 
 	public static void main(String[] args){
@@ -47,10 +53,6 @@ public class Day21 {
 		}			
 		return variations;
 	}
-
-	/*
-		Super parallelized
-	*/
 
 	public static Square findMatchingRule(Square square, List<Pair<Square>> rules) {
 		return createVariations(square).parallelStream()
