@@ -102,6 +102,4 @@ class Packet {
 	}
 }
 
-enum Direction {
-	NORTH,SOUTH,WEST,EAST;
-}
+

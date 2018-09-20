@@ -1,16 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-class Program {
-	int i;
-	HashMap<String,Long> regs;
-	Program(int i){
-		this.i = i;
-		this.regs = new HashMap<String,Long>();
-	}
-}
-
-public class Day18 {
+public class Day18a {
 
 	public static void main(String[] args) {
 		HashMap<String,Long> regs = new HashMap<String,Long>();

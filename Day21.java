@@ -11,10 +11,10 @@ Maybe cool theory. Definitly stupid in practice.
 public class Day21 {
 
 	public static void main(String[] args){
-		ReadInputFile rif = new ReadInputFile("./"+args[0]);
+		ReadInputFile rif = new ReadInputFile("./"+"21input	");
 		ArrayList<String> als = rif.getStringList();
 		Square input = new Square();
-		ArrayList<Pair<Square>> rules = new ArrayList<Pair<Square>>();
+		ArrayList<Pair<Square>> rules = new ArrayList<>();
 		
 		for (String s : als ) {
 			String[] ss = s.split(" => ");
@@ -42,8 +42,8 @@ public class Day21 {
 		System.out.println("Part B "+answ[17]);
 	}
 
-	public static ArrayList<Square> createVariations(Square square) {
-		ArrayList<Square> variations = new ArrayList<Square>();
+	private static ArrayList<Square> createVariations(Square square) {
+		ArrayList<Square> variations = new ArrayList<>();
 		for (int rotate = 0;rotate < 2;rotate++) {
 			for (int tip = 0;tip<4;tip++) {
 				variations.add(square);	
@@ -54,7 +54,7 @@ public class Day21 {
 		return variations;
 	}
 
-	public static Square findMatchingRule(Square square, List<Pair<Square>> rules) {
+	private static Square findMatchingRule(Square square, List<Pair<Square>> rules) {
 		return createVariations(square).parallelStream()
 			.map(sq -> rules.parallelStream()
 					.filter(rule -> sq.equals(rule.left))
@@ -80,7 +80,7 @@ public class Day21 {
 
 	public static Square rotateFaceward(Square square) {
 		ArrayList<String> input = square.pixels;
-		ArrayList<String> output = new ArrayList<String>();
+		ArrayList<String> output = new ArrayList<>();
 		for (String s : input) {
 			output.add(new StringBuilder(s).reverse().toString());
 		}
