@@ -5,6 +5,7 @@ public class GridTraverser<E> {
     Direction dir;
     Integer x;
     Integer y;
+    Grid<E> grid;
 
     GridTraverser (Integer x,Integer y,Direction dir) {
         this.x = x;
@@ -34,11 +35,18 @@ public class GridTraverser<E> {
         this.y = y;
     }
 
-    Grid<E> grid;
+    public Grid<E> getGrid() {
+        return grid;
+    }
+
+    public Integer getGridSize() {
+        return grid.size;
+    }
 
     public void connect(Grid grid) {
         this.grid = grid;
     }
+
     public E checkGrid(){
         return grid.getValue(x,y);
     }
@@ -72,5 +80,10 @@ public class GridTraverser<E> {
                 ,p -> setDir(Direction.EAST)
                 ,p -> setDir(Direction.SOUTH));
     }
-
+    public void reverse() {
+        directionCond(p -> setDir(Direction.SOUTH)
+                ,p -> setDir(Direction.WEST)
+                ,p -> setDir(Direction.NORTH)
+                ,p -> setDir(Direction.EAST));
+    }
 }
